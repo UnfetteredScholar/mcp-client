@@ -46,7 +46,13 @@ class MCPClient:
 
 
 async def main():
-    client = MCPClient(["http://localhost:8000/sse"])
+    client = MCPClient(
+        [
+            # "http://localhost:8000/sse",
+            "http://localhost:8001/sse",
+            "http://localhost:8002/sse",
+        ]
+    )
     try:
         trace_id = gen_trace_id()
         with trace(workflow_name="SSE Example", trace_id=trace_id):
@@ -58,7 +64,7 @@ async def main():
                 [
                     {
                         "role": "user",
-                        "content": "What's the weather in New York?",
+                        "content": "Get the weather for my current city/ location",
                     }
                 ]
             )
@@ -67,7 +73,7 @@ async def main():
     except Exception as ex:
         print(f"Error: {ex}")
     finally:
-        print("cleanup")
+        # print("cleanup")
         await client.cleanup()
 
 
