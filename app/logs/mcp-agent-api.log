@@ -1,0 +1,125 @@
+2025-04-15 11:52:57,197 - INFO - mcp.client.sse  - Connecting to SSE endpoint: http://localhost:8001/sse
+2025-04-15 11:52:57,407 - ERROR - openai.agents  - Error initializing MCP server: unhandled errors in a TaskGroup (1 sub-exception)
+2025-04-15 11:52:57,407 - ERROR - api.v1.routers.conversation.chat  - unhandled errors in a TaskGroup (1 sub-exception)
+  + Exception Group Traceback (most recent call last):
+  |   File "/app/api/v1/routers/conversation.py", line 111, in chat
+  |     response = await agent.run(history)
+  |                ^^^^^^^^^^^^^^^^^^^^^^^^
+  |   File "/app/core/mcp_client.py", line 27, in run
+  |     await self.exit_stack.enter_async_context(
+  |   File "/usr/local/lib/python3.11/contextlib.py", line 650, in enter_async_context
+  |     result = await _enter(cm)
+  |              ^^^^^^^^^^^^^^^^
+  |   File "/app/.venv/lib/python3.11/site-packages/agents/mcp/server.py", line 89, in __aenter__
+  |     await self.connect()
+  |   File "/app/.venv/lib/python3.11/site-packages/agents/mcp/server.py", line 102, in connect
+  |     transport = await self.exit_stack.enter_async_context(self.create_streams())
+  |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  |   File "/usr/local/lib/python3.11/contextlib.py", line 650, in enter_async_context
+  |     result = await _enter(cm)
+  |              ^^^^^^^^^^^^^^^^
+  |   File "/usr/local/lib/python3.11/contextlib.py", line 210, in __aenter__
+  |     return await anext(self.gen)
+  |            ^^^^^^^^^^^^^^^^^^^^^
+  |   File "/app/.venv/lib/python3.11/site-packages/mcp/client/sse.py", line 43, in sse_client
+  |     async with anyio.create_task_group() as tg:
+  |   File "/app/.venv/lib/python3.11/site-packages/anyio/_backends/_asyncio.py", line 772, in __aexit__
+  |     raise BaseExceptionGroup(
+  | ExceptionGroup: unhandled errors in a TaskGroup (1 sub-exception)
+  +-+---------------- 1 ----------------
+    | Traceback (most recent call last):
+    |   File "/app/.venv/lib/python3.11/site-packages/httpx/_transports/default.py", line 101, in map_httpcore_exceptions
+    |     yield
+    |   File "/app/.venv/lib/python3.11/site-packages/httpx/_transports/default.py", line 394, in handle_async_request
+    |     resp = await self._pool.handle_async_request(req)
+    |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |   File "/app/.venv/lib/python3.11/site-packages/httpcore/_async/connection_pool.py", line 256, in handle_async_request
+    |     raise exc from None
+    |   File "/app/.venv/lib/python3.11/site-packages/httpcore/_async/connection_pool.py", line 236, in handle_async_request
+    |     response = await connection.handle_async_request(
+    |                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |   File "/app/.venv/lib/python3.11/site-packages/httpcore/_async/connection.py", line 101, in handle_async_request
+    |     raise exc
+    |   File "/app/.venv/lib/python3.11/site-packages/httpcore/_async/connection.py", line 78, in handle_async_request
+    |     stream = await self._connect(request)
+    |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |   File "/app/.venv/lib/python3.11/site-packages/httpcore/_async/connection.py", line 124, in _connect
+    |     stream = await self._network_backend.connect_tcp(**kwargs)
+    |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |   File "/app/.venv/lib/python3.11/site-packages/httpcore/_backends/auto.py", line 31, in connect_tcp
+    |     return await self._backend.connect_tcp(
+    |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |   File "/app/.venv/lib/python3.11/site-packages/httpcore/_backends/anyio.py", line 113, in connect_tcp
+    |     with map_exceptions(exc_map):
+    |   File "/usr/local/lib/python3.11/contextlib.py", line 158, in __exit__
+    |     self.gen.throw(typ, value, traceback)
+    |   File "/app/.venv/lib/python3.11/site-packages/httpcore/_exceptions.py", line 14, in map_exceptions
+    |     raise to_exc(exc) from exc
+    | httpcore.ConnectError: All connection attempts failed
+    | 
+    | The above exception was the direct cause of the following exception:
+    | 
+    | Traceback (most recent call last):
+    |   File "/app/.venv/lib/python3.11/site-packages/mcp/client/sse.py", line 47, in sse_client
+    |     async with aconnect_sse(
+    |   File "/usr/local/lib/python3.11/contextlib.py", line 210, in __aenter__
+    |     return await anext(self.gen)
+    |            ^^^^^^^^^^^^^^^^^^^^^
+    |   File "/app/.venv/lib/python3.11/site-packages/httpx_sse/_api.py", line 69, in aconnect_sse
+    |     async with client.stream(method, url, headers=headers, **kwargs) as response:
+    |   File "/usr/local/lib/python3.11/contextlib.py", line 210, in __aenter__
+    |     return await anext(self.gen)
+    |            ^^^^^^^^^^^^^^^^^^^^^
+    |   File "/app/.venv/lib/python3.11/site-packages/httpx/_client.py", line 1583, in stream
+    |     response = await self.send(
+    |                ^^^^^^^^^^^^^^^^
+    |   File "/app/.venv/lib/python3.11/site-packages/httpx/_client.py", line 1629, in send
+    |     response = await self._send_handling_auth(
+    |                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |   File "/app/.venv/lib/python3.11/site-packages/httpx/_client.py", line 1657, in _send_handling_auth
+    |     response = await self._send_handling_redirects(
+    |                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |   File "/app/.venv/lib/python3.11/site-packages/httpx/_client.py", line 1694, in _send_handling_redirects
+    |     response = await self._send_single_request(request)
+    |                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |   File "/app/.venv/lib/python3.11/site-packages/httpx/_client.py", line 1730, in _send_single_request
+    |     response = await transport.handle_async_request(request)
+    |                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |   File "/app/.venv/lib/python3.11/site-packages/httpx/_transports/default.py", line 393, in handle_async_request
+    |     with map_httpcore_exceptions():
+    |   File "/usr/local/lib/python3.11/contextlib.py", line 158, in __exit__
+    |     self.gen.throw(typ, value, traceback)
+    |   File "/app/.venv/lib/python3.11/site-packages/httpx/_transports/default.py", line 118, in map_httpcore_exceptions
+    |     raise mapped_exc(message) from exc
+    | httpx.ConnectError: All connection attempts failed
+    +------------------------------------
+2025-04-15 12:00:06,092 - ERROR - api.v1.routers.conversation.chat  - '_AsyncGeneratorContextManager' object has no attribute 'run'
+Traceback (most recent call last):
+  File "/app/api/v1/routers/conversation.py", line 111, in chat
+    response = await agent.run(history)
+                     ^^^^^^^^^
+AttributeError: '_AsyncGeneratorContextManager' object has no attribute 'run'
+2025-04-15 12:05:02,441 - INFO - mcp.client.sse  - Connecting to SSE endpoint: http://host.docker.internal:8001/sse
+2025-04-15 12:05:02,651 - INFO - httpx  - HTTP Request: GET http://host.docker.internal:8001/sse "HTTP/1.1 200 OK"
+2025-04-15 12:05:02,653 - INFO - mcp.client.sse  - Received endpoint URL: http://host.docker.internal:8001/messages/?session_id=19fe97fcd2d94d77bdded40f357aa76f
+2025-04-15 12:05:02,654 - INFO - mcp.client.sse  - Starting post writer with endpoint URL: http://host.docker.internal:8001/messages/?session_id=19fe97fcd2d94d77bdded40f357aa76f
+2025-04-15 12:05:02,667 - INFO - httpx  - HTTP Request: POST http://host.docker.internal:8001/messages/?session_id=19fe97fcd2d94d77bdded40f357aa76f "HTTP/1.1 202 Accepted"
+2025-04-15 12:05:02,678 - INFO - httpx  - HTTP Request: POST http://host.docker.internal:8001/messages/?session_id=19fe97fcd2d94d77bdded40f357aa76f "HTTP/1.1 202 Accepted"
+2025-04-15 12:05:02,686 - INFO - httpx  - HTTP Request: POST http://host.docker.internal:8001/messages/?session_id=19fe97fcd2d94d77bdded40f357aa76f "HTTP/1.1 202 Accepted"
+2025-04-15 12:05:04,755 - INFO - httpx  - HTTP Request: POST https://api.openai.com/v1/responses "HTTP/1.1 200 OK"
+2025-04-15 12:05:04,805 - INFO - httpx  - HTTP Request: POST http://host.docker.internal:8001/messages/?session_id=19fe97fcd2d94d77bdded40f357aa76f "HTTP/1.1 202 Accepted"
+2025-04-15 12:05:05,709 - INFO - httpx  - HTTP Request: POST https://api.openai.com/v1/responses "HTTP/1.1 200 OK"
+2025-04-15 12:05:06,415 - INFO - httpx  - HTTP Request: POST https://api.openai.com/v1/traces/ingest "HTTP/1.1 204 No Content"
+2025-04-15 12:05:07,210 - INFO - httpx  - HTTP Request: POST https://api.openai.com/v1/traces/ingest "HTTP/1.1 204 No Content"
+2025-04-15 12:12:36,570 - INFO - mcp.client.sse  - Connecting to SSE endpoint: http://host.docker.internal:8001/sse
+2025-04-15 12:12:36,754 - INFO - httpx  - HTTP Request: GET http://host.docker.internal:8001/sse "HTTP/1.1 200 OK"
+2025-04-15 12:12:36,756 - INFO - mcp.client.sse  - Received endpoint URL: http://host.docker.internal:8001/messages/?session_id=610679b9b3714215b3fff5aface4ddd2
+2025-04-15 12:12:36,756 - INFO - mcp.client.sse  - Starting post writer with endpoint URL: http://host.docker.internal:8001/messages/?session_id=610679b9b3714215b3fff5aface4ddd2
+2025-04-15 12:12:36,766 - INFO - httpx  - HTTP Request: POST http://host.docker.internal:8001/messages/?session_id=610679b9b3714215b3fff5aface4ddd2 "HTTP/1.1 202 Accepted"
+2025-04-15 12:12:36,776 - INFO - httpx  - HTTP Request: POST http://host.docker.internal:8001/messages/?session_id=610679b9b3714215b3fff5aface4ddd2 "HTTP/1.1 202 Accepted"
+2025-04-15 12:12:36,783 - INFO - httpx  - HTTP Request: POST http://host.docker.internal:8001/messages/?session_id=610679b9b3714215b3fff5aface4ddd2 "HTTP/1.1 202 Accepted"
+2025-04-15 12:12:37,972 - INFO - httpx  - HTTP Request: POST https://api.openai.com/v1/responses "HTTP/1.1 200 OK"
+2025-04-15 12:12:37,990 - INFO - httpx  - HTTP Request: POST http://host.docker.internal:8001/messages/?session_id=610679b9b3714215b3fff5aface4ddd2 "HTTP/1.1 202 Accepted"
+2025-04-15 12:12:39,411 - INFO - httpx  - HTTP Request: POST https://api.openai.com/v1/traces/ingest "HTTP/1.1 204 No Content"
+2025-04-15 12:12:45,624 - INFO - httpx  - HTTP Request: POST https://api.openai.com/v1/responses "HTTP/1.1 200 OK"
+2025-04-15 12:12:50,424 - INFO - httpx  - HTTP Request: POST https://api.openai.com/v1/traces/ingest "HTTP/1.1 204 No Content"
